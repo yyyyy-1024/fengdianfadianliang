@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <title>风力发电量前五省份</title>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+    <style>
+        body {
+            background-color: #164068;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 10px;
+            margin: 0;
+            font-family: system-ui, -apple-system, "Microsoft Yahei", sans-serif;
+        }
+
+        .chart-card {
+            width: 30%;
+            max-width: 720px;
+            background: #ffffff;
+            border-radius: 16px;
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.15);
+            padding: 9px;
+            box-sizing: border-box;
+        }
+
+        #wind-chart {
+            width: 100%;
+            height: 360px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="chart-card">
+        <div id="wind-chart"></div>
+    </div>
+
+    <script>
+        const myChart = echarts.init(document.getElementById('wind-chart'));
+        const option = {
+            title: {
+                show: false
+            },
+            tooltip: {
+                trigger: 'axis',
+                formatter: '{b}<br/>发电量：{c} 亿千瓦时'
+            },
+            grid: {
+                left: 40,
+                right: 15,
+                top: 35,
+                bottom: 20
+            },
+            graphic: [
+                {
+                    type: 'text',
+                    left: 1,
+                    top: 1,
+                    style: {
+                        text: '亿千瓦时',
+                        fontSize: 14,
+                        fill: '#666'
+                    }
+                }
+            ],
+            xAxis: {
+                type: 'category',
+                data: ['内蒙古', '新疆', '河北', '江苏', '山东'],
+                axisLine: { lineStyle: { color: '#e5e7eb' } },
+                axisTick: { show: false },
+                axisLabel: { fontSize: 13, color: '#374151' }
+            },
+            yAxis: {
+                type: 'value',
+                min: 0,
+                max: 1800,
+                interval: 400,
+                name: '',
+                splitLine: {
+                    lineStyle: { color: '#f0f2f5' }
+                },
+                axisLine: { show: false },
+                axisTick: { show: false }
+            },
+            series: [
+                {
+                    type: 'bar',
+                    barWidth: '60%',
+                    // 关键：类目之间空隙，百分比越小，省份间距越小
+                    barCategoryGap: '100%',
+                    data: [1630, 695, 640, 565, 540],
+                    label: {
+                        show: true,
+                        position: 'top',
+                        fontSize: 12,
+                        color: '#222'
+                    },
+                    itemStyle: {
+                        borderRadius: [5, 5, 0, 0],
+                        color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                            { offset: 0, color: '#345e88' },
+                            { offset: 1, color: '#164068' }
+                        ])
+                    }
+                }
+            ]
+        };
+
+        myChart.setOption(option);
+        window.addEventListener('resize', () => myChart.resize());
+    </script>
+</body>
+
+</html>
